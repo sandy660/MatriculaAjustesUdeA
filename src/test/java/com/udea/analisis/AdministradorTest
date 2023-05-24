@@ -1,0 +1,23 @@
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+public class AdministradorTest {
+
+    @Test
+    void ajustarCurso_shouldNotThrowException() {
+        // Arrange
+        Administrador administrador = new Administrador();
+
+        // Act & Assert
+        Assertions.assertDoesNotThrow(administrador::AjustarCurso);
+    }
+
+    @Test
+    void monitorear_shouldNotThrowException() {
+        // Arrange
+        Administrador administrador = new Administrador();
+
+        // Act & Assert
+        Assertions.assertDoesNotThrow(administrador::Monitorear);
+    }
+}
