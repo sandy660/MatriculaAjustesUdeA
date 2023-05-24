@@ -1,0 +1,66 @@
+package com.udea.analisis.matriculaudea;
+
+import com.udea.analisis.matriculaudea.controllers.horariocontroller;
+import com.udea.analisis.matriculaudea.models.Horario;
+import com.udea.analisis.matriculaudea.repositories.HorarioRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+public class horariocontrollerTest {
+
+    private MockMvc mockMvc;
+
+    @Mock
+    private HorarioRepository horarioRepository;
+
+    @InjectMocks
+    private horariocontroller horarioController;
+
+    @BeforeEach
+    public void setup() {
+        // Arrange (Preparar): Inicialización de los campos de prueba
+        MockitoAnnotations.initMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(horarioController).build();
+    }
+
+    @Test
+    public void testGetAllHorarios() throws Exception {
+        // Arrange (Preparar): Datos simulados
+        String idCurso = "123";
+        List<Horario> horarios = new ArrayList<>();
+        horarios.add(new Horario("1", "Lunes", "10:00", "12:00"));
+        horarios.add(new Horario("2", "Martes", "14:00", "16:00"));
+
+        // Arrange (Preparar): Simulación del comportamiento del repositorio
+        when(horarioRepository.findByIdCurso(idCurso)).thenReturn(horarios);
+
+        // Act (Actuar): Realizar la solicitud GET
+        mockMvc.perform(get("/horarios/{IdCurso}", idCurso))
+                // Assert (Verificar): Verificar el estado de la respuesta
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value("1"))
+                .andExpect(jsonPath("$[0].dia").value("Lunes"))
+                .andExpect(jsonPath("$[0].horaInicio").value("10:00"))
+                .andExpect(jsonPath("$[0].horaFin").value("12:00"))
+                .andExpect(jsonPath("$[1].id").value("2"))
+                .andExpect(jsonPath("$[1].dia").value("Martes"))
+                .andExpect(jsonPath("$[1].horaInicio").value("14:00"))
+                .andExpect(jsonPath("$[1].horaFin").value("16:00"));
+
+        // Assert (Verificar): Verificar que el método del repositorio fue llamado una vez con el parámetro correcto
+        verify(horarioRepository, times(1)).findByIdCurso(idCurso);
+        verifyNoMoreInteractions(horarioRepository);
+    }
+}
