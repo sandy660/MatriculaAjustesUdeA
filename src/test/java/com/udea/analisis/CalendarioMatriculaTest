@@ -1,0 +1,41 @@
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+public class CalendarioMatriculaTest {
+
+    @Test
+    void visualizarCalendario_shouldReturnEmptyString() {
+        // Arrange
+        CalendarioMatricula calendario = new CalendarioMatricula();
+
+        // Act
+        String resultado = calendario.VisualizarCalendario();
+
+        // Assert
+        Assertions.assertEquals("", resultado);
+    }
+
+    @Test
+    void imprimirCalendario_shouldReturnEmptyString() {
+        // Arrange
+        CalendarioMatricula calendario = new CalendarioMatricula();
+
+        // Act
+        String resultado = calendario.ImprimirCalendario();
+
+        // Assert
+        Assertions.assertEquals("", resultado);
+    }
+
+    @Test
+    void descargarCalendario_shouldReturnEmptyString() {
+        // Arrange
+        CalendarioMatricula calendario = new CalendarioMatricula();
+
+        // Act
+        String resultado = calendario.DescargarCalendario();
+
+        // Assert
+        Assertions.assertEquals("", resultado);
+    }
+}
