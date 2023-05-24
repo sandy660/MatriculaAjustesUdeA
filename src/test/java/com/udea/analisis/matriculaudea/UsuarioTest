@@ -1,0 +1,83 @@
+package com.udea.analisis.matriculaudea;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+public class UsuarioTest {
+
+    private Usuario usuario;
+
+    @BeforeEach
+    public void setUp() {
+        usuario = new UsuarioImpl();
+    }
+
+    @Test
+    public void testGetNumeroIdentificacion() {
+        // Arrange
+        String expectedNumeroIdentificacion = "43105817";
+
+        // Act
+        usuario.setNumeroIdentificacion(expectedNumeroIdentificacion);
+        String actualNumeroIdentificacion = usuario.getNumeroIdentificacion();
+
+        // Assert
+        Assertions.assertEquals(expectedNumeroIdentificacion, actualNumeroIdentificacion);
+    }
+
+    @Test
+    public void testGetTipoIdentificacion() {
+        // Arrange
+        String expectedTipoIdentificacion = "CC";
+
+        // Act
+        usuario.setTipoIdentificacion(expectedTipoIdentificacion);
+        String actualTipoIdentificacion = usuario.getTipoIdentificacion();
+
+        // Assert
+        Assertions.assertEquals(expectedTipoIdentificacion, actualTipoIdentificacion);
+    }
+
+    @Test
+    public void testGetNombre() {
+        // Arrange
+        String expectedNombre = "Sandra";
+
+        // Act
+        usuario.setNombre(expectedNombre);
+        String actualNombre = usuario.getNombre();
+
+        // Assert
+        Assertions.assertEquals(expectedNombre, actualNombre);
+    }
+
+    @Test
+    public void testGetApellidos() {
+        // Arrange
+        String expectedApellidos = "Mejia";
+
+        // Act
+        usuario.setApellidos(expectedApellidos);
+        String actualApellidos = usuario.getApellidos();
+
+        // Assert
+        Assertions.assertEquals(expectedApellidos, actualApellidos);
+    }
+
+    @Test
+    public void testGetCorreoElectronico() {
+        // Arrange
+        String expectedCorreoElectronico = "sandra@example.com";
+
+        // Act
+        usuario.setCorreoElectronico(expectedCorreoElectronico);
+        String actualCorreoElectronico = usuario.getCorreoElectronico();
+
+        // Assert
+        Assertions.assertEquals(expectedCorreoElectronico, actualCorreoElectronico);
+    }
+
+    private static class UsuarioImpl extends Usuario {
+    }
+}
