@@ -1,0 +1,64 @@
+import com.udea.analisis.matriculaudea.models.Curso;
+import com.udea.analisis.matriculaudea.repositories.CursosRepository;
+import com.udea.analisis.matriculaudea.repositories.EstudianteRepository;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+
+@SpringBootTest
+class CursoControllerTest {
+
+    @Mock
+    private CursosRepository cursosRepository;
+
+    @Mock
+    private EstudianteRepository estudiantesRepository;
+
+    @InjectMocks
+    private CursoController cursoController;
+
+    @Test
+    void getAllCourses_ReturnsListOfCourses() {
+        // Arrange
+        List<Curso> expectedCourses = new ArrayList<>();
+        expectedCourses.add(new Curso("101", "Course 1", "Mon 10:00", "3", "20", "", "", 1));
+        expectedCourses.add(new Curso("102", "Course 2", "Tue 14:00", "4", "15", "101", "", 2));
+        when(cursosRepository.findAll()).thenReturn(expectedCourses);
+
+        // Act
+        List<Curso> result = cursoController.getAllCourses("someId");
+
+        // Assert
+        assertEquals(expectedCourses, result);
+    }
+
+    @Test
+    void getAllCourses_WhenNoCoursesExist_ReturnsEmptyList() {
+        // Arrange
+        when(cursosRepository.findAll()).thenReturn(new ArrayList<>());
+
+        // Act
+        List<Curso> result = cursoController.getAllCourses("someId");
+
+        // Assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void getCourseByID_ReturnsListOfCourses() {
+        // Arrange
+        String studentId = "123";
+        Estudiante estudiante = new Estudiante();
+        estudiante.setSemestreAcademico(2);
+        when(estudiantesRepository.findByNumeroIdentificacion(studentId)).thenReturn(estudiante);
+
+        List<Curso> expectedCourses = new ArrayList<>();
+        expectedCourses.add(new Curso("101", "Course 1", "Mon 10:00", "3", "20", "", "", 1));
+        expectedCourses.add(new Curso("102", "Course 2", "Tue 14:00", "4", "15", "101", "",
