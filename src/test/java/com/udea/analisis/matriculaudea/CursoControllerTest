@@ -1,3 +1,5 @@
+package com.udea.analisis.matriculaudea;
+
 import com.udea.analisis.matriculaudea.models.Curso;
 import com.udea.analisis.matriculaudea.repositories.CursosRepository;
 import com.udea.analisis.matriculaudea.repositories.EstudianteRepository;
