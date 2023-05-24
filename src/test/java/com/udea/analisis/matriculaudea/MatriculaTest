@@ -1,0 +1,148 @@
+package com.udea.analisis.matriculaudea;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+public class MatriculaTest {
+
+    private Matricula matricula;
+
+    @BeforeEach
+    public void setUp() {
+        matricula = new Matricula();
+    }
+
+    @Test
+    public void testGetCodigoMatricula() {
+        // Arrange
+        String expectedCodigoMatricula = "123456";
+
+        // Act
+        matricula.setCodigoMatricula(expectedCodigoMatricula);
+        String actualCodigoMatricula = matricula.getCodigoMatricula();
+
+        // Assert
+        Assertions.assertEquals(expectedCodigoMatricula, actualCodigoMatricula);
+    }
+
+    @Test
+    public void testGetNumeroIdentificacionEstudiante() {
+        // Arrange
+        String expectedNumeroIdentificacionEstudiante = "987654321";
+
+        // Act
+        matricula.setNumeroIdentificacionEstudiante(expectedNumeroIdentificacionEstudiante);
+        String actualNumeroIdentificacionEstudiante = matricula.getNumeroIdentificacionEstudiante();
+
+        // Assert
+        Assertions.assertEquals(expectedNumeroIdentificacionEstudiante, actualNumeroIdentificacionEstudiante);
+    }
+
+    @Test
+    public void testGetCodigoSemestre() {
+        // Arrange
+        String expectedCodigoSemestre = "2023-01";
+
+        // Act
+        matricula.setCodigoSemestre(expectedCodigoSemestre);
+        String actualCodigoSemestre = matricula.getCodigoSemestre();
+
+        // Assert
+        Assertions.assertEquals(expectedCodigoSemestre, actualCodigoSemestre);
+    }
+
+    @Test
+    public void testGetEstadoMatricula() {
+        // Arrange
+        String expectedEstadoMatricula = "INICIADA";
+
+        // Act
+        matricula.setEstadoMatricula(expectedEstadoMatricula);
+        String actualEstadoMatricula = matricula.getEstadoMatricula();
+
+        // Assert
+        Assertions.assertEquals(expectedEstadoMatricula, actualEstadoMatricula);
+    }
+
+    @Test
+    public void testAnadirCurso() {
+        // Arrange
+        Matricula matricula = new Matricula();
+
+        // Act & Assert
+        Assertions.assertThrows(UnsupportedOperationException.class, matricula::AnadirCurso);
+    }
+
+    @Test
+    public void testCargarDesdePreMatricula() {
+        // Arrange
+        Matricula matricula = new Matricula();
+
+        // Act & Assert
+        Assertions.assertThrows(UnsupportedOperationException.class, matricula::CargarDesdePreMatricula);
+    }
+
+    @Test
+    public void testEliminarCurso() {
+        // Arrange
+        Matricula matricula = new Matricula();
+
+        // Act & Assert
+        Assertions.assertThrows(UnsupportedOperationException.class, matricula::EliminarCurso);
+    }
+
+    @Test
+    public void testEliminarGrupo() {
+        // Arrange
+        Matricula matricula = new Matricula();
+
+        // Act & Assert
+        Assertions.assertThrows(UnsupportedOperationException.class, matricula::EliminarGrupo);
+    }
+
+    @Test
+    public void testModificarGrupo() {
+        // Arrange
+        Matricula matricula = new Matricula();
+
+        // Act & Assert
+        Assertions.assertThrows(UnsupportedOperationException.class, matricula::ModificarGrupo);
+    }
+
+    @Test
+    public void testModificarPreMatricula() {
+        // Arrange
+        Matricula matricula = new Matricula();
+
+        // Act & Assert
+        Assertions.assertThrows(UnsupportedOperationException.class, matricula::ModificarPreMatricula);
+    }
+
+    @Test
+    public void testSeleccionarGrupo() {
+        // Arrange
+        Matricula matricula = new Matricula();
+
+        // Act & Assert
+        Assertions.assertThrows(UnsupportedOperationException.class, matricula::SeleccionarGrupo);
+    }
+
+    @Test
+    public void testVisualizarListado() {
+        // Arrange
+        Matricula matricula = new Matricula();
+
+        // Act & Assert
+        Assertions.assertThrows(UnsupportedOperationException.class, matricula::VisualizarListado);
+    }
+
+    @Test
+    public void testVisualizarIntentoDeMatricula() {
+        // Arrange
+        Matricula matricula = new Matricula();
+
+        // Act & Assert
+        Assertions.assertThrows(UnsupportedOperationException.class, matricula::VisualizarIntentoDeMatricula);
+    }
+}
