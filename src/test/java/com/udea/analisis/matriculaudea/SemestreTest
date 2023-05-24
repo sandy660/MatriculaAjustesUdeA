@@ -1,0 +1,33 @@
+package com.udea.analisis.matriculaudea;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+public class SemestreTest {
+
+    @Test
+    public void testGettersAndSetters() {
+        // Arrange
+        String codigoSemestre = "2023-01";
+        String inicioMatricula = "2023-01-01";
+        String finMatricula = "2023-01-15";
+        String inicioClases = "2023-01-20";
+        String finClases = "2023-05-31";
+
+        Semestre semestre = new Semestre();
+
+        // Act
+        semestre.setCodigoSemestre(codigoSemestre);
+        semestre.setInicioMatricula(inicioMatricula);
+        semestre.setFinMatricula(finMatricula);
+        semestre.setInicioClases(inicioClases);
+        semestre.setFinClases(finClases);
+
+        // Assert
+        Assertions.assertEquals(codigoSemestre, semestre.getCodigoSemestre());
+        Assertions.assertEquals(inicioMatricula, semestre.getInicioMatricula());
+        Assertions.assertEquals(finMatricula, semestre.getFinMatricula());
+        Assertions.assertEquals(inicioClases, semestre.getInicioClases());
+        Assertions.assertEquals(finClases, semestre.getFinClases());
+    }
+}
