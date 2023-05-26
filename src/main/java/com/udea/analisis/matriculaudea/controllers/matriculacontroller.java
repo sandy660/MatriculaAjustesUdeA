@@ -15,11 +15,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.TimeZone;
 
+import com.udea.analisis.matriculaudea.models.Curso;
 import com.udea.analisis.matriculaudea.models.Estudiante;
+import com.udea.analisis.matriculaudea.models.Horario;
 import com.udea.analisis.matriculaudea.models.Matricula;
 import com.udea.analisis.matriculaudea.models.Registro;
 import com.udea.analisis.matriculaudea.models.Tanda;
+import com.udea.analisis.matriculaudea.repositories.CursosRepository;
 import com.udea.analisis.matriculaudea.repositories.EstudianteRepository;
+import com.udea.analisis.matriculaudea.repositories.HorarioRepository;
 import com.udea.analisis.matriculaudea.repositories.MatriculasRepository;
 import com.udea.analisis.matriculaudea.repositories.RegistrosRepository;
 import com.udea.analisis.matriculaudea.repositories.TandaRepository;
@@ -34,6 +38,10 @@ public class matriculacontroller {
     RegistrosRepository registroRepository;
     @Autowired
     TandaRepository tandaRepository;
+    @Autowired
+    CursosRepository cursosRepository;
+    @Autowired
+    HorarioRepository horarioRepository;
 
     @CrossOrigin
     @PostMapping(value = "/iniciarMatricula/{idEstudiante}")
@@ -132,7 +140,7 @@ public class matriculacontroller {
                 matriculaEstudiante = matriculasRepository.findByNumeroIdentificacionEstudiante(identificadorPeticion);
                 if (matriculaEstudiante == null) {
                     jsonError.put("status", "ERROR");
-                    jsonError.put("message", "Error: No se ha encontrado la matricula, verificar el dato envíado.");
+                    jsonError.put("message", "No se ha encontrado la matricula, verificar el dato envíado.");
                     return jsonError;
                 }
             }
@@ -144,7 +152,7 @@ public class matriculacontroller {
 
         if (matriculaEstudiante == null || !matriculaEstudiante.estadoMatricula.toUpperCase().equals("INICIADA")) {
             jsonError.put("status", "ERROR");
-            jsonError.put("message", "Error: La matricula no se encuentra inicializada.");
+            jsonError.put("message", "La matricula no se encuentra inicializada.");
             return jsonError;
         } else {
             List<Registro> registros = registroRepository
@@ -158,6 +166,54 @@ public class matriculacontroller {
 
             jsonOK.put("status", "OK");
             jsonOK.put("message", "Se ha finalizado la matricula correctamente");
+            return jsonOK;
+        }
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/consultarMatricula/{identificadorPeticion}")
+    public HashMap<String, Object> consultarMatricula(@PathVariable String identificadorPeticion) {
+        HashMap<String, Object> jsonError = new HashMap<String, Object>();
+        HashMap<String, Object> jsonOK = new HashMap<String, Object>();
+        Matricula matriculaEstudiante = null;
+
+        if (identificadorPeticion != null && !identificadorPeticion.equals("")) {
+            Optional<Matricula> findById = matriculasRepository.findById(identificadorPeticion);
+            if (findById.isPresent()) {
+                matriculaEstudiante = findById.get();
+            } else {
+                matriculaEstudiante = matriculasRepository.findByNumeroIdentificacionEstudiante(identificadorPeticion);
+            }
+        } else {
+            jsonError.put("status", "ERROR");
+            jsonError.put("message", "No se han enviado la matricula o el id del estudiante");
+            return jsonError;
+        }
+
+        if(matriculaEstudiante == null) {
+            jsonError.put("status", "ERROR");
+            jsonError.put("message", "No se ha encontrado la matricula, verificar el dato envíado.");
+            return jsonError;
+        } else if (!matriculaEstudiante.estadoMatricula.equals("Matriculado")){
+            jsonError.put("status", "ERROR");
+            jsonError.put("message", "La matricula del estudiante aun no ha finalizado");
+            return jsonError;
+        }else {
+            List<Registro> registros = registroRepository
+                    .findRegistrosByCodigoMatricula(matriculaEstudiante.codigoMatricula);
+            
+            registros.forEach((registro) -> {
+                Curso cursoR = cursosRepository.findById(registro.codigoMateria).get();
+                Horario horarioR = horarioRepository.findById(registro.codigoHorario).get();
+                if(cursoR != null && horarioR != null) {
+                    registro.horarioCurso = horarioR.horario;
+                    registro.nombreCurso = cursoR.nombre;
+                    registro.creditosCurso = cursoR.creditos;
+                }
+            });
+            jsonOK.put("status", "OK");
+            jsonOK.put("message", "Se han consultado los registros del estudiante");
+            jsonOK.put("Registros", registros);
             return jsonOK;
         }
     }
