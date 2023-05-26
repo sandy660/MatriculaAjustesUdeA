@@ -1,0 +1,55 @@
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+public class HorarioTest {
+
+    @Test
+    public void testConstructorAndGetters() {
+        // Arrange
+        String idCurso = "123";
+        String grupo = "A";
+        String codigo = "456";
+        String horario = "Lunes 10:00 - 12:00";
+        Integer cuposDisponibles = 20;
+        Integer matriculados = 10;
+
+        // Act
+        Horario horarioObj = new Horario(idCurso, grupo, codigo, horario, cuposDisponibles, matriculados);
+
+        // Assert
+        Assertions.assertEquals(idCurso, horarioObj.getIdCurso());
+        Assertions.assertEquals(grupo, horarioObj.getGrupo());
+        Assertions.assertEquals(codigo, horarioObj.getCodigo());
+        Assertions.assertEquals(horario, horarioObj.getHorario());
+        Assertions.assertEquals(cuposDisponibles, horarioObj.getCuposDisponibles());
+        Assertions.assertEquals(matriculados, horarioObj.getMatriculados());
+    }
+
+    @Test
+    public void testSetters() {
+        // Arrange
+        Horario horarioObj = new Horario();
+        String idCurso = "123";
+        String grupo = "A";
+        String codigo = "456";
+        String horario = "Lunes 10:00 - 12:00";
+        Integer cuposDisponibles = 20;
+        Integer matriculados = 10;
+
+        // Act
+        horarioObj.setIdCurso(idCurso);
+        horarioObj.setGrupo(grupo);
+        horarioObj.setCodigo(codigo);
+        horarioObj.setHorario(horario);
+        horarioObj.setCuposDisponibles(cuposDisponibles);
+        horarioObj.setMatriculados(matriculados);
+
+        // Assert
+        Assertions.assertEquals(idCurso, horarioObj.getIdCurso());
+        Assertions.assertEquals(grupo, horarioObj.getGrupo());
+        Assertions.assertEquals(codigo, horarioObj.getCodigo());
+        Assertions.assertEquals(horario, horarioObj.getHorario());
+        Assertions.assertEquals(cuposDisponibles, horarioObj.getCuposDisponibles());
+        Assertions.assertEquals(matriculados, horarioObj.getMatriculados());
+    }
+}
