@@ -45,4 +45,4 @@ jobs:
       - name: Upload coverage report to SonarCloud
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn sonar:sonar -Dsonar.organization=sandy660-2 -Dsonar.projectKey=sandy660_MatriculaAjustesUdeA -Dsonar.host.url=https://sonarcloud.io
+        run: mvn sonar:sonar -Pcoverage -Dsonar.organization=sandy660-2 -Dsonar.projectKey=sandy660_MatriculaAjustesUdeA -Dsonar.host.url=https://sonarcloud.io
