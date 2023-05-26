@@ -1,0 +1,67 @@
+package com.udea.analisis.matriculaudea;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+public class CursoTest {
+
+    @Test
+    public void testConstructorAndGetters() {
+        // Arrange
+        String codigo = "COMP123";
+        String nombre = "Programación Avanzada";
+        String horario = "Lunes 14:00 - 16:00";
+        String creditos = "3";
+        String cupos = "30";
+        String prerrequisitos = "COMP101";
+        String correquisitos = "COMP102";
+        Integer nivel = 2;
+
+        // Act
+        Curso cursoObj = new Curso(codigo, nombre, horario, creditos, cupos, prerrequisitos, correquisitos, nivel);
+
+        // Assert
+        Assertions.assertEquals(codigo, cursoObj.getCodigo());
+        Assertions.assertEquals(nombre, cursoObj.getNombre());
+        Assertions.assertEquals(horario, cursoObj.getHorario());
+        Assertions.assertEquals(creditos, cursoObj.getCreditos());
+        Assertions.assertEquals(cupos, cursoObj.getCupos());
+        Assertions.assertEquals(prerrequisitos, cursoObj.getPrerrequisitos());
+        Assertions.assertEquals(correquisitos, cursoObj.getCorrequisitos());
+        Assertions.assertEquals(nivel, cursoObj.getNivel());
+    }
+
+    @Test
+    public void testSetters() {
+        // Arrange
+        Curso cursoObj = new Curso();
+        String codigo = "COMP123";
+        String nombre = "Programación Avanzada";
+        String horario = "Lunes 14:00 - 16:00";
+        String creditos = "3";
+        String cupos = "30";
+        String prerrequisitos = "COMP101";
+        String correquisitos = "COMP102";
+        Integer nivel = 2;
+
+        // Act
+        cursoObj.setCodigo(codigo);
+        cursoObj.setNombre(nombre);
+        cursoObj.setHorario(horario);
+        cursoObj.setCreditos(creditos);
+        cursoObj.setCupos(cupos);
+        cursoObj.setPrerrequisitos(prerrequisitos);
+        cursoObj.setCorrequisitos(correquisitos);
+        cursoObj.setNivel(nivel);
+
+        // Assert
+        Assertions.assertEquals(codigo, cursoObj.getCodigo());
+        Assertions.assertEquals(nombre, cursoObj.getNombre());
+        Assertions.assertEquals(horario, cursoObj.getHorario());
+        Assertions.assertEquals(creditos, cursoObj.getCreditos());
+        Assertions.assertEquals(cupos, cursoObj.getCupos());
+        Assertions.assertEquals(prerrequisitos, cursoObj.getPrerrequisitos());
+        Assertions.assertEquals(correquisitos, cursoObj.getCorrequisitos());
+        Assertions.assertEquals(nivel, cursoObj.getNivel());
+    }
+}
