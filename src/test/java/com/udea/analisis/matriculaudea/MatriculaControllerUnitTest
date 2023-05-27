@@ -1,0 +1,91 @@
+package com.udea.analisis.matriculaudea;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.util.HashMap;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
+
+public class MatriculaControllerUnitTest {
+    @Mock
+    private EstudianteRepository estudianteRepository;
+    @Mock
+    private MatriculasRepository matriculasRepository;
+    @Mock
+    private RegistrosRepository registroRepository;
+    @Mock
+    private TandaRepository tandaRepository;
+    @Mock
+    private CursosRepository cursosRepository;
+    @Mock
+    private HorarioRepository horarioRepository;
+
+    @InjectMocks
+    private MatriculaController matriculaController;
+
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    public void testIniciarMatricula_ValidEstudianteId_ReturnsResponseWithStatusCodeOk() {
+        // Arrange
+        String estudianteId = "123";
+        Estudiante estudiante = new Estudiante();
+        estudiante.setNumeroIdentificacion(estudianteId);
+        when(estudianteRepository.findByNumeroIdentificacion(estudianteId)).thenReturn(estudiante);
+
+        Tanda tanda = new Tanda();
+        tanda.setDia("2023-01-01");
+        tanda.setHorario("09:00:00");
+        when(tandaRepository.findById(any())).thenReturn(Optional.of(tanda));
+
+        Matricula matricula = new Matricula();
+        matricula.setNumeroIdentificacionEstudiante(estudianteId);
+        when(matriculasRepository.findByNumeroIdentificacionEstudiante(estudianteId)).thenReturn(null);
+        when(matriculasRepository.save(any())).thenReturn(matricula);
+
+        // Act
+        ResponseEntity<HashMap<String, String>> response = matriculaController.iniciarMatricula(estudianteId);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("OK", response.getBody().get("estado"));
+        assertEquals("INICIADA", response.getBody().get("estadoMatricula"));
+        assertEquals(matricula.getCodigoMatricula(), response.getBody().get("codigoMatricula"));
+        assertEquals(matricula.getNumeroIdentificacionEstudiante(), response.getBody().get("identificacionEstudiante"));
+
+        verify(estudianteRepository, times(1)).findByNumeroIdentificacion(estudianteId);
+        verify(tandaRepository, times(1)).findById(any());
+        verify(matriculasRepository, times(1)).findByNumeroIdentificacionEstudiante(estudianteId);
+        verify(matriculasRepository, times(1)).save(any());
+    }
+
+    @Test
+    public void testIniciarMatricula_InvalidEstudianteId_ReturnsResponseWithError() {
+        // Arrange
+        String estudianteId = "456";
+        when(estudianteRepository.findByNumeroIdentificacion(estudianteId)).thenReturn(null);
+
+        // Act
+        ResponseEntity<HashMap<String, String>> response = matriculaController.iniciarMatricula(estudianteId);
+
+        // Assert
+        assertEquals(HttpStatus.ERROR, response.getStatusCode());
+        assertEquals("ERROR", response.getBody().get("estado"));
+        assertEquals("Ocurrio un error al iniciar la matricula del estudiante " + estudianteId, response.getBody().get("message"));
+
+        verify(estudianteRepository, times(1)).findByNumeroIdentificacion(estudianteId);
+        verifyNoMoreInteractions(tandaRepository);
+        verifyNoMoreInteractions(matriculasRepository);
+    }
+}
